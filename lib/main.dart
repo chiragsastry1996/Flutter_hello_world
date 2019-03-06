@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'status.dart';
+import 'chat.dart';
+import 'phone.dart';
+import 'team.dart';
 
 void main() => runApp(MyApp());
 
@@ -31,7 +34,7 @@ class SquareCard extends StatelessWidget {
                   padding: EdgeInsets.all(5.0),
                   child: GridView.count(
                     crossAxisCount: 2,
-                    children: _getTiles(item_list),
+                    children: _getTiles(item_list, context),
                   ),
                 ),
               )),
@@ -42,16 +45,38 @@ class SquareCard extends StatelessWidget {
 }
 
 // Function to be called on click
-void _onTileClicked(int index) {
+void _onTileClicked(int index, BuildContext context) {
   debugPrint("You tapped on item $index");
-  Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => status()),
-  );
+  switch (index) {
+    case 0:
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Status()),
+      );
+      break;
+    case 1:
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ChatBot()),
+      );
+      break;
+    case 2:
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Phone()),
+      );
+      break;
+    case 3:
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => Team()),
+      );
+      break;
+  }
 }
 
 // Get grid tiles
-List<Widget> _getTiles(List<String> navList) {
+List<Widget> _getTiles(List<String> navList, BuildContext context) {
   final List<Widget> tiles = <Widget>[];
   for (int i = 0; i < navList.length; i++) {
     tiles.add(new GridTile(
@@ -63,7 +88,7 @@ List<Widget> _getTiles(List<String> navList) {
             child: Center(
               child: new Text(navList[i]),
             ),
-            onTap: () => _onTileClicked(i),
+            onTap: () => _onTileClicked(i, context),
           )),
     ));
   }
