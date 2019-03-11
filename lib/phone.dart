@@ -16,7 +16,7 @@ class _PhoneState extends State<Phone> {
     return MaterialApp(
             home: Scaffold(
               appBar: new AppBar(
-                title: Text("DBS"),
+                title: Text("Phone"),
                 leading: new IconButton(
                         icon: new Icon(Icons.arrow_back),
                         onPressed: () {
@@ -26,7 +26,7 @@ class _PhoneState extends State<Phone> {
               body: Container(
                       margin: EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 0),
                       child: Card(
-                        child: new FutureBuilder<List<Ticket>>(
+                        child: new FutureBuilder<List<Details>>(
                           future: teamDetailsFromDb(),
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
@@ -46,30 +46,29 @@ class _PhoneState extends State<Phone> {
                                                           mainAxisAlignment:
                                                           MainAxisAlignment.spaceBetween,
                                                           children: <Widget>[
-                                                            Text(
-                                                              snapshot.data[index].name,
-                                                              style: new TextStyle(
-                                                                fontSize: 16.0,
-//                              color: Colors.yellow,
+                                                            Container(
+                                                              child: Row(
+                                                                children: <Widget>[
+                                                                  Image.asset('assets/boy.png'),
+                                                                  Text("   Chirag DK")
+                                                                ],
                                                               ),
                                                             ),
-                                                            Text(
-                                                              "In Progress",
-                                                              style: new TextStyle(
-                                                                fontSize: 16.0,
-//                              color: Colors.yellow,
+                                                            Container(
+                                                              child: Row(
+                                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                                children: <Widget>[
+                                                                  Image.asset('assets/gmail.png',
+                                                                    height: 30.0, width: 30.0, fit: BoxFit.contain),
+                                                                  Text("   "),
+                                                                  Image.asset('assets/call.png',
+                                                                    height: 30.0, width: 30.0,)
+                                                                ],
                                                               ),
                                                             )
                                                           ],
                                                         ),
-                                                      ),
-                                                      Row(
-                                                        children: <Widget>[
-                                                          Text("Category/Sub-Category: "),
-                                                          Text(snapshot.data[index].id.toString())
-                                                        ],
-                                                      ),
-                                                      Text("Short Descprition: PlaceHolder")
+                                                      )
                                                     ],
                                                   ),
                                                 ));
@@ -88,28 +87,28 @@ class _PhoneState extends State<Phone> {
   }
 }
 
-Future<List<Ticket>> teamDetailsFromDb() async {
+Future<List<Details>> teamDetailsFromDb() async {
   final response = await http.get('https://api.github.com/users');
   print(response.body);
   List responseJson = json.decode(response.body.toString());
-  List<Ticket> userList = createTeamList(responseJson);
+  List<Details> userList = createTeamList(responseJson);
   return userList;
 }
 
-List<Ticket> createTeamList(List data) {
-  List<Ticket> list = new List();
+List<Details> createTeamList(List data) {
+  List<Details> list = new List();
   for (int i = 0; i < data.length; i++) {
     String title = data[i]["login"];
     int id = data[i]["id"];
-    Ticket user = new Ticket(name: title, id: id);
+    Details user = new Details(name: title, id: id);
     list.add(user);
   }
   return list;
 }
 
-class Ticket {
+class Details {
   String name;
   int id;
 
-  Ticket({this.name, this.id});
+  Details({this.name, this.id});
 }
