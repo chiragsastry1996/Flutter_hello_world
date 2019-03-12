@@ -3,6 +3,7 @@ import 'status.dart';
 import 'chat.dart';
 import 'phone.dart';
 import 'team.dart';
+import 'login.dart';
 
 void main() => runApp(MyApp());
 
@@ -30,8 +31,11 @@ class SquareCard extends StatelessWidget {
               height: MediaQuery.of(context).size.width * 0.85,
               width: MediaQuery.of(context).size.width * 0.85,
               child: Card(
+                shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(25.0))
+                ),
                 child: Padding(
-                  padding: EdgeInsets.all(5.0),
+                  padding: EdgeInsets.all(15.0),
                   child: GridView.count(
                     crossAxisCount: 2,
                     children: _getTiles(item_list, context),
@@ -69,7 +73,7 @@ void _onTileClicked(int index, BuildContext context) {
     case 3:
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => Team()),
+        MaterialPageRoute(builder: (context) => Login()),
       );
       break;
   }
@@ -81,6 +85,9 @@ List<Widget> _getTiles(List<String> navList, BuildContext context) {
   for (int i = 0; i < navList.length; i++) {
     tiles.add(new GridTile(
       child: new Card(
+              shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(15.0))
+              ),
           color: const Color(0xff2980b9),
           margin: const EdgeInsets.all(10.0),
           child: new InkResponse(
