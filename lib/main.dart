@@ -73,7 +73,7 @@ void _onTileClicked(int index, BuildContext context) {
     case 3:
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => Login()),
+        MaterialPageRoute(builder: (context) => Team()),
       );
       break;
   }
