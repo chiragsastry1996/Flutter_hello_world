@@ -22,8 +22,21 @@ class SquareCard extends StatelessWidget {
     // TODO: implement build
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: Text("DBS"),
+        appBar: new AppBar(
+          title: Stack(
+            alignment: Alignment.centerRight,
+            children: <Widget>[
+              Center(child: Text("DBS")),
+              IconButton(
+                  icon: new Icon(Icons.power_settings_new),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Login()),
+                    );
+                  }),
+            ],
+          ),
         ),
         body: Center(
           child: Container(
@@ -32,8 +45,7 @@ class SquareCard extends StatelessWidget {
               width: MediaQuery.of(context).size.width * 0.85,
               child: Card(
                 shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(25.0))
-                ),
+                    borderRadius: BorderRadius.all(Radius.circular(25.0))),
                 child: Padding(
                   padding: EdgeInsets.all(15.0),
                   child: GridView.count(
@@ -85,9 +97,8 @@ List<Widget> _getTiles(List<String> navList, BuildContext context) {
   for (int i = 0; i < navList.length; i++) {
     tiles.add(new GridTile(
       child: new Card(
-              shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(15.0))
-              ),
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(15.0))),
           color: const Color(0xff2980b9),
           margin: const EdgeInsets.all(10.0),
           child: new InkResponse(

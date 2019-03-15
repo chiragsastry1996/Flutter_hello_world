@@ -10,32 +10,28 @@ class Login extends StatelessWidget {
     return MaterialApp(
       home: Scaffold(
         appBar: new AppBar(
-          title: Text("DBS"),
-          leading: new IconButton(
-              icon: new Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.pop(context, true);
-              }),
+          title: Text("DBS")
         ),
-        body: Stack(
-          children: <Widget>[
-            Container(
-              margin: EdgeInsets.only(
-                  left: screen_width * 0.08, top: screen_height * 0.1),
-              child: Text(
-                "LOGIN",
-                textAlign: TextAlign.left,
-                style: new TextStyle(fontSize: 45),
-              ),
-            ),
-            Align(
-              alignment: Alignment.center,
-              child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: screen_width * 0.08),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Card(
+        body: Container(
+            margin: EdgeInsets.symmetric(horizontal: screen_width * 0.08),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 45),
+                  child: Text(
+                    "LOGIN",
+                    textAlign: TextAlign.left,
+                    style: new TextStyle(fontSize: 45),
+                  ),
+                ),
+                Stack(
+                  alignment: Alignment.bottomLeft,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 20),
+                      child: Card(
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.all(Radius.circular(15.0))),
                         child: Container(
@@ -85,20 +81,27 @@ class Login extends StatelessWidget {
                               ],
                             )),
                       ),
-                      RaisedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => MyApp())
-                          );
-                        },
-                         child: Text("GO -->")
-                      )
-                    ],
-                  )),
-            ),
-          ],
-        ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 30),
+                      child: RaisedButton(
+                              onPressed: () {
+                                Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => MyApp())
+                                );
+                              },
+                              child: Padding(
+                                padding: const EdgeInsets.all(15.0),
+                                child: Text("GO -->  "),
+                              )
+                      ),
+                    )
+                  ],
+                ),
+
+              ],
+            )),
       ),
     );
   }
