@@ -5,9 +5,7 @@ void main() => runApp(ChatBot());
 
 class ChatBot extends StatelessWidget {
   Widget build(BuildContext context) {
-    return new MaterialApp(
-      routes: {
-        "/": (_) => new WebviewScaffold(
+    return WebviewScaffold(
           initialChild: Container(
             child: const Center(
               child: Text('Waiting.....'),
@@ -15,15 +13,9 @@ class ChatBot extends StatelessWidget {
           ),
           url: "https://partonline.azurewebsites.net/chat.html",
           appBar: AppBar(
-            title: Text('Parts Online Chatbot'),
-            leading: new IconButton(
-                    icon: new Icon(Icons.arrow_back),
-                    onPressed: () {
-                      Navigator.pop(context, true);
-                    }),
+            centerTitle: true,
+            title: Text('DBS Chatbot'),
           ),
-        ),
-      },
     );
   }
 }

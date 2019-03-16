@@ -13,146 +13,157 @@ class Team extends StatefulWidget {
 class _TeamState extends State<Team> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home: Scaffold(
+    return Scaffold(
       appBar: new AppBar(
+        centerTitle: true,
         title: Text("Team"),
-        leading: new IconButton(
-            icon: new Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context, true);
-            }),
       ),
       body: Container(
-          margin: EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 0),
-          child: Card(
-            child: new FutureBuilder<List<Info>>(
-              future: infoDetailsFromDb(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Container(
-                    margin: EdgeInsets.only(
-                        top: 15, left: 15, right: 15, bottom: 0),
-                    child: Container(
-                      margin: EdgeInsets.all(15.0),
-                      child: new Column(
-                        children: <Widget>[
-                          Row(
-                            children: <Widget>[
-                              Expanded(child: Text("India")),
-                              Expanded(child: Text("Chirag")),
-                            ],
-                          ),
-                          Divider(),
-                          Row(
-                            children: <Widget>[
-                              Expanded(child: Text("Australia")),
-                              Expanded(child: Text("Chirag")),
-                            ],
-                          ),
-                          Divider(),
-                          Row(
-                            children: <Widget>[
-                              Expanded(child: Text("Middle East")),
-                              Expanded(child: Text("Chirag")),
-                            ],
-                          ),
-                          Divider(),
-                          Row(
-                            children: <Widget>[
-                              Expanded(child: Text("Africa")),
-                              Expanded(child: Text("Chirag")),
-                            ],
-                          ),
-                          Divider(),
-                          Row(
-                            children: <Widget>[
-                              Expanded(child: Text("North America")),
-                              Expanded(child: Text("Chirag")),
-                            ],
-                          ),
-                          Divider(),
-                          Row(
-                            children: <Widget>[
-                              Expanded(child: Text("Email - ID")),
-                              Expanded(child: Text("Chirag")),
-                            ],
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                left: 0.0, right: 0.0, top: 20.0, bottom: 10.0),
-                            child: Row(
-                              children: <Widget>[
-                                Text(
-                                  "Phone",
-                                  style: new TextStyle(fontSize: 20.0),
-                                )
-                              ],
-                            ),
-                          ),
-                          Row(
-                            children: <Widget>[
-                              Expanded(child: Text("India")),
-                              Expanded(child: Text("Chirag")),
-                            ],
-                          ),
-                          Divider(),
-                          Row(
-                            children: <Widget>[
-                              Expanded(child: Text("AU,NZ")),
-                              Expanded(child: Text("Chirag")),
-                            ],
-                          ),
-                          Divider(),
-                          Row(
-                            children: <Widget>[
-                              Expanded(child: Text("Middle East")),
-                              Expanded(child: Text("Chirag")),
-                            ],
-                          ),
-                          Divider(),
-                          Row(children: <Widget>[
-                            Expanded(child: Text("Africa")),
-                            Expanded(child: Text("Chirag"))
-                          ]),
-                          Divider(),
-                          Row(children: <Widget>[
-                            Expanded(child: Text("North America")),
-                            Expanded(child: Text("Chirag"))
-                          ]),
-                          Padding(
-                              padding: EdgeInsets.only(
-                                  left: 0.0,
-                                  right: 0.0,
-                                  top: 15.0,
-                                  bottom: 5.0),
-                              child: Row(
-                                children: <Widget>[
-                                  Text(
-                                    "Market",
-                                    style: new TextStyle(fontSize: 20.0),
-                                  )
-                                ],
-                              )),
-                          Text(
-                              "AO, AM, AU, BH, BW, CV, CY, TL, EG, ER, ET, FJ, GM, GH, GW, IN, IR, IQ, "
-                              "IL, JO, KE, KW, LB, LR, LY, MR, MU, NA, NZ, NG, OM, PG, QA, ST, SA, SL, SO, ZA, SD, "
-                              "SY, TEZ, TN, UG, AE, EH, YE, ZM, ZW, QA, LK, MV, BD, PK")
-                        ],
-                      ),
-                    ),
-                  );
-                } else if (snapshot.hasError) {
-                  return new Text("${snapshot.error}");
-                }
-                return new Align(
-                  child: CircularProgressIndicator(),
-                  alignment: Alignment.center,
-                );
-              },
+        decoration: new BoxDecoration(
+          image: new DecorationImage(
+            image: new AssetImage("assets/status.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Container(
+          decoration: new BoxDecoration(
+            image: new DecorationImage(
+              image: new AssetImage("assets/status.png"),
+              fit: BoxFit.cover,
             ),
-          )),
-    ));
+          ),
+          child: Container(
+              margin: EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 0),
+              child: Card(
+                child: new FutureBuilder<List<Info>>(
+                  future: infoDetailsFromDb(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Container(
+                        margin: EdgeInsets.only(
+                            top: 15, left: 15, right: 15, bottom: 0),
+                        child: Container(
+                          margin: EdgeInsets.all(15.0),
+                          child: new Column(
+                            children: <Widget>[
+                              Row(
+                                children: <Widget>[
+                                  Expanded(child: Text("India")),
+                                  Expanded(child: Text("Chirag")),
+                                ],
+                              ),
+                              Divider(),
+                              Row(
+                                children: <Widget>[
+                                  Expanded(child: Text("Australia")),
+                                  Expanded(child: Text("Chirag")),
+                                ],
+                              ),
+                              Divider(),
+                              Row(
+                                children: <Widget>[
+                                  Expanded(child: Text("Middle East")),
+                                  Expanded(child: Text("Chirag")),
+                                ],
+                              ),
+                              Divider(),
+                              Row(
+                                children: <Widget>[
+                                  Expanded(child: Text("Africa")),
+                                  Expanded(child: Text("Chirag")),
+                                ],
+                              ),
+                              Divider(),
+                              Row(
+                                children: <Widget>[
+                                  Expanded(child: Text("North America")),
+                                  Expanded(child: Text("Chirag")),
+                                ],
+                              ),
+                              Divider(),
+                              Row(
+                                children: <Widget>[
+                                  Expanded(child: Text("Email - ID")),
+                                  Expanded(child: Text("Chirag")),
+                                ],
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                    left: 0.0, right: 0.0, top: 20.0, bottom: 10.0),
+                                child: Row(
+                                  children: <Widget>[
+                                    Text(
+                                      "Phone",
+                                      style: new TextStyle(fontSize: 20.0),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              Row(
+                                children: <Widget>[
+                                  Expanded(child: Text("India")),
+                                  Expanded(child: Text("Chirag")),
+                                ],
+                              ),
+                              Divider(),
+                              Row(
+                                children: <Widget>[
+                                  Expanded(child: Text("AU,NZ")),
+                                  Expanded(child: Text("Chirag")),
+                                ],
+                              ),
+                              Divider(),
+                              Row(
+                                children: <Widget>[
+                                  Expanded(child: Text("Middle East")),
+                                  Expanded(child: Text("Chirag")),
+                                ],
+                              ),
+                              Divider(),
+                              Row(children: <Widget>[
+                                Expanded(child: Text("Africa")),
+                                Expanded(child: Text("Chirag"))
+                              ]),
+                              Divider(),
+                              Row(children: <Widget>[
+                                Expanded(child: Text("North America")),
+                                Expanded(child: Text("Chirag"))
+                              ]),
+                              Padding(
+                                  padding: EdgeInsets.only(
+                                      left: 0.0,
+                                      right: 0.0,
+                                      top: 15.0,
+                                      bottom: 5.0),
+                                  child: Row(
+                                    children: <Widget>[
+                                      Text(
+                                        "Market",
+                                        style: new TextStyle(fontSize: 20.0),
+                                      )
+                                    ],
+                                  )),
+                              Text(
+                                  "AO, AM, AU, BH, BW, CV, CY, TL, EG, ER, ET, FJ, GM, GH, GW, IN, IR, IQ, "
+                                  "IL, JO, KE, KW, LB, LR, LY, MR, MU, NA, NZ, NG, OM, PG, QA, ST, SA, SL, SO, ZA, SD, "
+                                  "SY, TEZ, TN, UG, AE, EH, YE, ZM, ZW, QA, LK, MV, BD, PK")
+                            ],
+                          ),
+                        ),
+                      );
+                    } else if (snapshot.hasError) {
+                      return new Text("${snapshot.error}");
+                    }
+                    return new Align(
+                      child: CircularProgressIndicator(),
+                      alignment: Alignment.center,
+                    );
+                  },
+                ),
+              )),
+        ),
+      ),
+    );
   }
 }
 

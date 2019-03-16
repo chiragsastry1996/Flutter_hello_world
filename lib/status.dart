@@ -13,78 +13,81 @@ class Status extends StatefulWidget {
 class _StatusState extends State<Status> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home: Scaffold(
+    return Scaffold(
       appBar: new AppBar(
-        title: Text("DBS"),
-        leading: new IconButton(
-            icon: new Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context, true);
-            }),
+        centerTitle: true,
+        title: Text("Status"),
       ),
       body: Container(
-          margin: EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 0),
-          child: Card(
-            child: new FutureBuilder<List<Ticket>>(
-              future: ticketDetailsFromSnow(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return new ListView.builder(
-                      itemCount: snapshot.data.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return new Card(
-                            margin: EdgeInsets.all(15.0),
-                            child: Container(
-                              margin: EdgeInsets.all(10.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: <Widget>[
-                                  Container(
-                                    margin: EdgeInsets.only(bottom: 10.0),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+        decoration: new BoxDecoration(
+          image: new DecorationImage(
+            image: new AssetImage("assets/status.png"),
+            fit: BoxFit.cover,
+          ),
+        ),
+        child: Container(
+            margin: EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 0),
+            child: Card(
+              child: new FutureBuilder<List<Ticket>>(
+                future: ticketDetailsFromSnow(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return new ListView.builder(
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return new Card(
+                              margin: EdgeInsets.all(15.0),
+                              child: Container(
+                                margin: EdgeInsets.all(10.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    Container(
+                                      margin: EdgeInsets.only(bottom: 10.0),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: <Widget>[
+                                          Text(
+                                            snapshot.data[index].name,
+                                            style: new TextStyle(
+                                              fontSize: 16.0,
+//                              color: Colors.yellow,
+                                            ),
+                                          ),
+                                          Text(
+                                            "In Progress",
+                                            style: new TextStyle(
+                                              fontSize: 16.0,
+//                              color: Colors.yellow,
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                    Row(
                                       children: <Widget>[
-                                        Text(
-                                          snapshot.data[index].name,
-                                          style: new TextStyle(
-                                            fontSize: 16.0,
-//                              color: Colors.yellow,
-                                          ),
-                                        ),
-                                        Text(
-                                          "In Progress",
-                                          style: new TextStyle(
-                                            fontSize: 16.0,
-//                              color: Colors.yellow,
-                                          ),
-                                        )
+                                        Text("Category/Sub-Category: "),
+                                        Text(snapshot.data[index].id.toString())
                                       ],
                                     ),
-                                  ),
-                                  Row(
-                                    children: <Widget>[
-                                      Text("Category/Sub-Category: "),
-                                      Text(snapshot.data[index].id.toString())
-                                    ],
-                                  ),
-                                  Text("Short Descprition: PlaceHolder")
-                                ],
-                              ),
-                            ));
-                      });
-                } else if (snapshot.hasError) {
-                  return new Text("${snapshot.error}");
-                }
-                return new Align(
-                  child: CircularProgressIndicator(),
-                  alignment: Alignment.center,
-                );
-              },
-            ),
-          )),
-    ));
+                                    Text("Short Descprition: PlaceHolder")
+                                  ],
+                                ),
+                              ));
+                        });
+                  } else if (snapshot.hasError) {
+                    return new Text("${snapshot.error}");
+                  }
+                  return new Align(
+                    child: CircularProgressIndicator(),
+                    alignment: Alignment.center,
+                  );
+                },
+              ),
+            )),
+      ),
+    );
   }
 }
 

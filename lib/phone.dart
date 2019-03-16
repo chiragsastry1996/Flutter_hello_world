@@ -13,77 +13,80 @@ class Phone extends StatefulWidget {
 class _PhoneState extends State<Phone> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-            home: Scaffold(
+    return Scaffold(
               appBar: new AppBar(
+                centerTitle: true,
                 title: Text("Phone"),
-                leading: new IconButton(
-                        icon: new Icon(Icons.arrow_back),
-                        onPressed: () {
-                          Navigator.pop(context, true);
-                        }),
               ),
               body: Container(
-                      margin: EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 0),
-                      child: Card(
-                        child: new FutureBuilder<List<Details>>(
-                          future: teamDetailsFromDb(),
-                          builder: (context, snapshot) {
-                            if (snapshot.hasData) {
-                              return new ListView.builder(
-                                      itemCount: snapshot.data.length,
-                                      itemBuilder: (BuildContext context, int index) {
-                                        return new Card(
-                                                margin: EdgeInsets.all(15.0),
-                                                child: Container(
-                                                  margin: EdgeInsets.all(10.0),
-                                                  child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    children: <Widget>[
-                                                      Container(
-                                                        margin: EdgeInsets.only(bottom: 10.0),
-                                                        child: Row(
-                                                          mainAxisAlignment:
-                                                          MainAxisAlignment.spaceBetween,
-                                                          children: <Widget>[
-                                                            Container(
-                                                              child: Row(
-                                                                children: <Widget>[
-                                                                  Image.asset('assets/boy.png'),
-                                                                  Text("   Chirag DK")
-                                                                ],
+                decoration: new BoxDecoration(
+                  image: new DecorationImage(
+                    image: new AssetImage("assets/status.png"),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                child: Container(
+                        margin: EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 0),
+                        child: Card(
+                          child: new FutureBuilder<List<Details>>(
+                            future: teamDetailsFromDb(),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return new ListView.builder(
+                                        itemCount: snapshot.data.length,
+                                        itemBuilder: (BuildContext context, int index) {
+                                          return new Card(
+                                                  margin: EdgeInsets.all(15.0),
+                                                  child: Container(
+                                                    margin: EdgeInsets.all(10.0),
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                                      children: <Widget>[
+                                                        Container(
+                                                          margin: EdgeInsets.only(bottom: 10.0),
+                                                          child: Row(
+                                                            mainAxisAlignment:
+                                                            MainAxisAlignment.spaceBetween,
+                                                            children: <Widget>[
+                                                              Container(
+                                                                child: Row(
+                                                                  children: <Widget>[
+                                                                    Image.asset('assets/boy.png'),
+                                                                    Text("   Chirag DK")
+                                                                  ],
+                                                                ),
                                                               ),
-                                                            ),
-                                                            Container(
-                                                              child: Row(
-                                                                crossAxisAlignment: CrossAxisAlignment.center,
-                                                                children: <Widget>[
-                                                                  Image.asset('assets/gmail.png',
-                                                                    height: 30.0, width: 30.0, fit: BoxFit.contain),
-                                                                  Text("   "),
-                                                                  Image.asset('assets/call.png',
-                                                                    height: 30.0, width: 30.0,)
-                                                                ],
-                                                              ),
-                                                            )
-                                                          ],
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ));
-                                      });
-                            } else if (snapshot.hasError) {
-                              return new Text("${snapshot.error}");
-                            }
-                            return new Align(
-                              child: CircularProgressIndicator(),
-                              alignment: Alignment.center,
-                            );
-                          },
-                        ),
-                      )),
-            ));
+                                                              Container(
+                                                                child: Row(
+                                                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                                                  children: <Widget>[
+                                                                    Image.asset('assets/gmail.png',
+                                                                      height: 30.0, width: 30.0, fit: BoxFit.contain),
+                                                                    Text("   "),
+                                                                    Image.asset('assets/call.png',
+                                                                      height: 30.0, width: 30.0,)
+                                                                  ],
+                                                                ),
+                                                              )
+                                                            ],
+                                                          ),
+                                                        )
+                                                      ],
+                                                    ),
+                                                  ));
+                                        });
+                              } else if (snapshot.hasError) {
+                                return new Text("${snapshot.error}");
+                              }
+                              return new Align(
+                                child: CircularProgressIndicator(),
+                                alignment: Alignment.center,
+                              );
+                            },
+                          ),
+                        )),
+              ),
+            );
   }
 }
 
