@@ -11,6 +11,7 @@ class Status extends StatefulWidget {
 }
 
 class _StatusState extends State<Status> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,6 +29,10 @@ class _StatusState extends State<Status> {
         child: Container(
             margin: EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 0),
             child: Card(
+              elevation: 8,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(15.0), bottom: Radius.circular(0))
+              ),
               child: new FutureBuilder<List<Ticket>>(
                 future: ticketDetailsFromSnow(),
                 builder: (context, snapshot) {
@@ -36,6 +41,11 @@ class _StatusState extends State<Status> {
                         itemCount: snapshot.data.length,
                         itemBuilder: (BuildContext context, int index) {
                           return new Card(
+                            elevation: 7,
+                            color: const Color(0xfff0f0f0),
+                            shape: RoundedRectangleBorder(
+                              side: new BorderSide(color: color_status(snapshot.data[index].incident_number), width: 2.0),
+                              borderRadius: BorderRadius.circular(8.0)),
                               margin: EdgeInsets.all(15.0),
                               child: Container(
                                 margin: EdgeInsets.all(10.0),
@@ -49,14 +59,14 @@ class _StatusState extends State<Status> {
                                             MainAxisAlignment.spaceBetween,
                                         children: <Widget>[
                                           Text(
-                                            snapshot.data[index].name,
+                                            snapshot.data[index].incident_number.toString(),
                                             style: new TextStyle(
                                               fontSize: 16.0,
 //                              color: Colors.yellow,
                                             ),
                                           ),
                                           Text(
-                                            "In Progress",
+                                            snapshot.data[index].incident_number.toString(),
                                             style: new TextStyle(
                                               fontSize: 16.0,
 //                              color: Colors.yellow,
@@ -68,10 +78,10 @@ class _StatusState extends State<Status> {
                                     Row(
                                       children: <Widget>[
                                         Text("Category/Sub-Category: "),
-                                        Text(snapshot.data[index].id.toString())
+                                        Text(snapshot.data[index].status.toString())
                                       ],
                                     ),
-                                    Text("Short Descprition: PlaceHolder")
+                                    Text("Short Descprition: " + snapshot.data[index].status.toString())
                                   ],
                                 ),
                               ));
@@ -89,9 +99,21 @@ class _StatusState extends State<Status> {
       ),
     );
   }
+
+  Color color_status(status) {
+    if(status == "mojombo") {
+      return Colors.blue;
+    }
+    else if(status == "defunkt") {
+      return Colors.red;
+    }
+    else return Colors.green;
+  }
+
 }
 
 Future<List<Ticket>> ticketDetailsFromSnow() async {
+
   final response = await http.get('https://api.github.com/users');
   print(response.body);
   List responseJson = json.decode(response.body.toString());
@@ -102,17 +124,19 @@ Future<List<Ticket>> ticketDetailsFromSnow() async {
 List<Ticket> createTicketList(List data) {
   List<Ticket> list = new List();
   for (int i = 0; i < data.length; i++) {
-    String title = data[i]["login"];
-    int id = data[i]["id"];
-    Ticket user = new Ticket(name: title, id: id);
+    String title = data[i]["login"].toString();
+    String id = data[i]["id"].toString();
+    Ticket user = new Ticket(incident_number: title,
+      status: id ,category: title, description: title);
     list.add(user);
   }
   return list;
 }
 
 class Ticket {
-  String name;
-  int id;
-
-  Ticket({this.name, this.id});
+  String incident_number;
+  String status;
+  String category;
+  String description;
+  Ticket({this.incident_number, this.status, this.category, this.description});
 }

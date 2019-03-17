@@ -35,13 +35,17 @@ class _TeamState extends State<Team> {
           child: Container(
               margin: EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 0),
               child: Card(
+                elevation: 8,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(15.0), bottom: Radius.circular(0))
+                ),
                 child: new FutureBuilder<List<Info>>(
                   future: infoDetailsFromDb(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return Container(
                         margin: EdgeInsets.only(
-                            top: 15, left: 15, right: 15, bottom: 0),
+                            top: 25, left: 20, right: 20, bottom: 0),
                         child: Container(
                           margin: EdgeInsets.all(15.0),
                           child: new Column(
@@ -92,9 +96,12 @@ class _TeamState extends State<Team> {
                                     left: 0.0, right: 0.0, top: 20.0, bottom: 10.0),
                                 child: Row(
                                   children: <Widget>[
-                                    Text(
-                                      "Phone",
-                                      style: new TextStyle(fontSize: 20.0),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 10, bottom: 10),
+                                      child: Text(
+                                        "Phone",
+                                        style: new TextStyle(fontSize: 20.0),
+                                      ),
                                     )
                                   ],
                                 ),
@@ -137,9 +144,12 @@ class _TeamState extends State<Team> {
                                       bottom: 5.0),
                                   child: Row(
                                     children: <Widget>[
-                                      Text(
-                                        "Market",
-                                        style: new TextStyle(fontSize: 20.0),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 5, bottom: 10),
+                                        child: Text(
+                                          "Market",
+                                          style: new TextStyle(fontSize: 20.0),
+                                        ),
                                       )
                                     ],
                                   )),

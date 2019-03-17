@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'status.dart';
 import 'chat.dart';
 import 'phone.dart';
@@ -30,7 +31,9 @@ class SquareCard extends StatelessWidget {
               Center(child: Text("DBS")),
               IconButton(
                   icon: new Icon(Icons.power_settings_new),
-                  onPressed: () {
+                  onPressed: () async {
+                    SharedPreferences prefs = await SharedPreferences.getInstance();
+                    prefs.clear();
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(builder: (context) => Login()),
@@ -52,6 +55,7 @@ class SquareCard extends StatelessWidget {
                 height: MediaQuery.of(context).size.width * 0.85,
                 width: MediaQuery.of(context).size.width * 0.85,
                 child: Card(
+                  elevation: 8,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(25.0))),
                   child: Padding(

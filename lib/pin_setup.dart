@@ -2,7 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_hello_world/formvalidator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'menu.dart';
+import 'main.dart';
 void main() => runApp(PinSetup());
 
 class PinSetup extends StatefulWidget {
@@ -20,7 +22,8 @@ class _PinSetupState extends State<PinSetup> {
     FocusScope.of(context).requestFocus(new FocusNode());
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      print(_pin);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setBool("isFirst", false);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -29,7 +32,6 @@ class _PinSetupState extends State<PinSetup> {
       setState(() => _autoValidate = true);
       return;
     }
-
 
 
   }
