@@ -24,6 +24,7 @@ class _PinSetupState extends State<PinSetup> {
       _formKey.currentState.save();
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setBool("isFirst", false);
+      prefs.setString("pin", _pin);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -76,6 +77,7 @@ class _PinSetupState extends State<PinSetup> {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 20),
                       child: Card(
+                        elevation: 8,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(15.0))),
                         child: Container(
@@ -112,10 +114,14 @@ class _PinSetupState extends State<PinSetup> {
                     Padding(
                       padding: const EdgeInsets.only(left: 30),
                       child: RaisedButton(
+                        color: Color(0xff303030),
                         onPressed: pin_submit,
                         child: Padding(
                           padding: const EdgeInsets.all(15.0),
-                          child: Text("GO -->  "),
+                          child: Text("GO -->  ",
+                            style: TextStyle(
+                                    color: Colors.white
+                            ),),
                         )
                       ),
                     )

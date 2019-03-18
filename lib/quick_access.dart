@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hello_world/formvalidator.dart';
 import 'menu.dart';
@@ -14,19 +14,26 @@ class QuickAccess extends StatefulWidget {
 class _QuickAccessState extends State<QuickAccess> {
 
   bool _autoValidate = false;
-  String _pin;
+  String _pin, _savedpin;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  var _scaffoldKey = GlobalKey<ScaffoldState>();
+  final snackBar = SnackBar(content: Text("Incorrect PIN"));
   FormValidator validator = FormValidator();
 
   Future<void> pin_submit() async {
     FocusScope.of(context).requestFocus(new FocusNode());
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      print(_pin);
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => Menu()));
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      _savedpin = prefs.getString("pin");
+      if(_pin==_savedpin){
+        Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                        builder: (context) => Menu()));
+      }
+      else
+        _scaffoldKey.currentState.showSnackBar(snackBar);
     } else {
       setState(() => _autoValidate = true);
       return;
@@ -40,6 +47,7 @@ class _QuickAccessState extends State<QuickAccess> {
     var screen_width = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      key: _scaffoldKey,
       appBar: new AppBar(
         centerTitle: true,
         title: Text("DBS")
@@ -73,6 +81,7 @@ class _QuickAccessState extends State<QuickAccess> {
                     Padding(
                       padding: const EdgeInsets.only(bottom: 20),
                       child: Card(
+                        elevation: 8,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.all(Radius.circular(15.0))),
                         child: Container(
@@ -98,6 +107,7 @@ class _QuickAccessState extends State<QuickAccess> {
                                     keyboardType: TextInputType.phone,
                                     validator: validator.validatePin,
                                     obscureText: true,
+                                    onSaved: (String val) => _pin = val,
                                   ),
                                 ),
                                 Padding(
@@ -120,10 +130,14 @@ class _QuickAccessState extends State<QuickAccess> {
                     Padding(
                       padding: const EdgeInsets.only(left: 30),
                       child: RaisedButton(
+                        color: const Color(0xff303030),
                         onPressed: pin_submit,
                         child: Padding(
                           padding: const EdgeInsets.all(15.0),
-                          child: Text("GO -->  "),
+                          child: Text("GO -->  ",
+                            style: TextStyle(
+                                    color: Colors.white
+                            ),),
                         )
                       ),
                     )

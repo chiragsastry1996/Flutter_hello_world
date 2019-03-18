@@ -79,6 +79,7 @@ class _RegisterState extends State<Register> {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 20),
                         child: Card(
+                          elevation: 8,
                           shape: RoundedRectangleBorder(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(15.0))),
@@ -186,10 +187,14 @@ class _RegisterState extends State<Register> {
                       Padding(
                         padding: const EdgeInsets.only(left: 30),
                         child: RaisedButton(
+                          color: const Color(0xff303030),
                             onPressed: form_submit,
                             child: Padding(
                               padding: const EdgeInsets.all(15.0),
-                              child: Text("GO -->  "),
+                              child: Text("GO -->  ",
+                              style: TextStyle(
+                                color: Colors.white
+                              ),),
                             )),
                       )
                     ],

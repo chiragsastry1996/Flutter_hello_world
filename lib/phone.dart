@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:async';
+import 'package:url_launcher/url_launcher.dart';
 
 class Phone extends StatefulWidget {
   const Phone({Key key}) : super(key: key);
@@ -28,6 +29,10 @@ class _PhoneState extends State<Phone> {
                 child: Container(
                         margin: EdgeInsets.only(top: 15, left: 15, right: 15, bottom: 0),
                         child: Card(
+                          elevation: 8,
+                          shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.vertical(top: Radius.circular(15.0), bottom: Radius.circular(0))
+                          ),
                           child: new FutureBuilder<List<Details>>(
                             future: teamDetailsFromDb(),
                             builder: (context, snapshot) {
@@ -36,6 +41,8 @@ class _PhoneState extends State<Phone> {
                                         itemCount: snapshot.data.length,
                                         itemBuilder: (BuildContext context, int index) {
                                           return new Card(
+                                            elevation: 4,
+                                                  color: const Color(0xfff0f0f0),
                                                   margin: EdgeInsets.all(15.0),
                                                   child: Container(
                                                     margin: EdgeInsets.all(10.0),
@@ -60,11 +67,14 @@ class _PhoneState extends State<Phone> {
                                                                 child: Row(
                                                                   crossAxisAlignment: CrossAxisAlignment.center,
                                                                   children: <Widget>[
-                                                                    Image.asset('assets/gmail.png',
-                                                                      height: 30.0, width: 30.0, fit: BoxFit.contain),
+                                                                    GestureDetector(
+                                                                      onTap: () => launch("tel:+8050403084"),
+                                                                      child: Image.asset('assets/mail.png',
+                                                                        height: 30.0, width: 30.0, fit: BoxFit.cover),
+                                                                    ),
                                                                     Text("   "),
                                                                     Image.asset('assets/call.png',
-                                                                      height: 30.0, width: 30.0,)
+                                                                      height: 27.0, width: 27.0,)
                                                                   ],
                                                                 ),
                                                               )
