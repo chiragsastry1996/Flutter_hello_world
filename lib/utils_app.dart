@@ -25,22 +25,4 @@ class utils_app {
 
     return decrypted;
   }
-
-  store_write(String key, String value) async {
-    await storage.write(key: key, value: value);
-  }
-
-   store_read(String key) async {
-     String value = await storage.read(key: key);
-    return value;
-  }
-
-  store_delete(String key) async {
-    return await storage.delete(key: key);
-  }
-
-  store_deleteall(String key) async {
-    return await storage.deleteAll();
-  }
-
 }

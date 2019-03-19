@@ -27,8 +27,7 @@ class _PinSetupState extends State<PinSetup> {
       _formKey.currentState.save();
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setBool("isFirst", false);
-      prefs.setString("pin", _pin);
-      utils_app().store_write("pin", _pin);
+      await utils_app().storage.write(key: "pin", value: _pin);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -106,7 +105,7 @@ class _PinSetupState extends State<PinSetup> {
                                     keyboardType: TextInputType.phone,
                                     obscureText: true,
                                     validator: validator.validatePin,
-                                    onSaved: (String val) => _pin = val,
+                                    onSaved: (String val) => _pin = utils_app().encrypt_text(val),
                                   ),
                                 ),
                               ],

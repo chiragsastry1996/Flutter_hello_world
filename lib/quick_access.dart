@@ -1,11 +1,9 @@
 import 'dart:async';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hello_world/formvalidator.dart';
 import 'menu.dart';
 import 'login.dart';
 import 'utils_app.dart';
-import 'pin_setup.dart';
 void main() => runApp(QuickAccess());
 
 class QuickAccess extends StatefulWidget {
@@ -16,7 +14,7 @@ class QuickAccess extends StatefulWidget {
 class _QuickAccessState extends State<QuickAccess> {
 
   bool _autoValidate = false;
-  String _pin, _savedpin;
+  String _pin;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   var _scaffoldKey = GlobalKey<ScaffoldState>();
   final snackBar = SnackBar(content: Text("Incorrect PIN"));
@@ -24,18 +22,19 @@ class _QuickAccessState extends State<QuickAccess> {
 
   Future<void> pin_submit() async {
 
-//    utils_app().store_write("abcd", "abcd");
-//    var ab = utils_app().store_read("abcd");
-    await utils_app().storage.write(key: "abcd", value: "abcd");
-    String value = await utils_app().storage.read(key: "abcd");
-    print(value);
+    String pin_object = await utils_app().storage.read(key: "pin");
+    String userid_object = await utils_app().storage.read(key: "userid");
+    String password_object = await utils_app().storage.read(key: "password");
+
+    String pin = utils_app().decrypt_text(pin_object);
+    String user_id = utils_app().decrypt_text(userid_object);
+    String password = utils_app().decrypt_text(password_object);
 
     FocusScope.of(context).requestFocus(new FocusNode());
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      SharedPreferences prefs = await SharedPreferences.getInstance();
-      _savedpin = prefs.getString("pin");
-      if(_pin==_savedpin){
+
+      if(_pin==pin){
         Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(

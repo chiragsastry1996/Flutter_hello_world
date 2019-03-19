@@ -21,12 +21,12 @@ class _LoginState extends State<Login> {
   Future<void> loginSubmit() async {
     FocusScope.of(context).requestFocus(new FocusNode());
 
-    utils_app().store_write("userid", _userid);
-    utils_app().store_write("password", _password);
-
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       if (_password != null) {
+
+        await utils_app().storage.write(key: "userid", value: _userid);
+        await utils_app().storage.write(key: "password", value: _password);
         Navigator.pushReplacement(
             context, MaterialPageRoute(builder: (context) => PinSetup()));
       } else
@@ -105,7 +105,7 @@ class _LoginState extends State<Login> {
                                         autofocus: false,
                                         validator: validator.validateID,
                                         keyboardType: TextInputType.text,
-                                        onSaved: (String val) => _userid = val,
+                                        onSaved: (String val) => _userid = utils_app().encrypt_text(val),
                                       ),
                                     ),
                                     Padding(
@@ -125,7 +125,7 @@ class _LoginState extends State<Login> {
                                       child: TextFormField(
                                         obscureText: true,
                                         validator: validator.validatePassword,
-                                        onSaved: (String val) => _password = val,
+                                        onSaved: (String val) => _password = utils_app().encrypt_text(val),
                                       ),
                                     ),
                                     Padding(
