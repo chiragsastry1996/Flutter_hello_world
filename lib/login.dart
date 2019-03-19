@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'utils_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hello_world/formvalidator.dart';
 import 'pin_setup.dart';
@@ -21,6 +21,8 @@ class _LoginState extends State<Login> {
   Future<void> loginSubmit() async {
     FocusScope.of(context).requestFocus(new FocusNode());
 
+    utils_app().store_write("userid", _userid);
+    utils_app().store_write("password", _password);
 
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();

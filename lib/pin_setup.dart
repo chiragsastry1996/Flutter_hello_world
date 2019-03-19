@@ -1,13 +1,15 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_hello_world/formvalidator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'menu.dart';
-import 'main.dart';
+import 'utils_app.dart';
+
 void main() => runApp(PinSetup());
 
 class PinSetup extends StatefulWidget {
+
+
   @override
   _PinSetupState createState() => _PinSetupState();
 }
@@ -18,6 +20,7 @@ class _PinSetupState extends State<PinSetup> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   FormValidator validator = FormValidator();
 
+
   Future<void> pin_submit() async {
     FocusScope.of(context).requestFocus(new FocusNode());
     if (_formKey.currentState.validate()) {
@@ -25,6 +28,7 @@ class _PinSetupState extends State<PinSetup> {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setBool("isFirst", false);
       prefs.setString("pin", _pin);
+      utils_app().store_write("pin", _pin);
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
@@ -33,7 +37,6 @@ class _PinSetupState extends State<PinSetup> {
       setState(() => _autoValidate = true);
       return;
     }
-
 
   }
 

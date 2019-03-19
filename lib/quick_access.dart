@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hello_world/formvalidator.dart';
 import 'menu.dart';
 import 'login.dart';
+import 'utils_app.dart';
+import 'pin_setup.dart';
 void main() => runApp(QuickAccess());
 
 class QuickAccess extends StatefulWidget {
@@ -21,6 +23,13 @@ class _QuickAccessState extends State<QuickAccess> {
   FormValidator validator = FormValidator();
 
   Future<void> pin_submit() async {
+
+//    utils_app().store_write("abcd", "abcd");
+//    var ab = utils_app().store_read("abcd");
+    await utils_app().storage.write(key: "abcd", value: "abcd");
+    String value = await utils_app().storage.read(key: "abcd");
+    print(value);
+
     FocusScope.of(context).requestFocus(new FocusNode());
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
