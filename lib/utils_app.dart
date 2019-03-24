@@ -11,6 +11,8 @@ class utils_app {
   final String basicAuth =
     'Basic ' + base64Encode(utf8.encode('$username:$password'));
 
+  String endpoint = "https://dbsmobilelogin.azurewebsites.net/api/";
+
    encrypt_text(String plain) {
     var plainText = plain;
     var key = encrypt.Key.fromLength(32);

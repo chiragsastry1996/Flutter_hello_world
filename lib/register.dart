@@ -1,8 +1,10 @@
 import 'dart:async';
-
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'login.dart';
 import 'formvalidator.dart';
+import 'utils_app.dart';
 
 void main() => runApp(Register());
 
@@ -16,18 +18,44 @@ class _RegisterState extends State<Register> {
   String _userid, _password, _passwordchk, _email;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   FormValidator validator = FormValidator();
-
+  bool isLoading = false;
   Future<void> form_submit() async {
+    setState(() {
+      isLoading = true;
+    });
     FocusScope.of(context).requestFocus(new FocusNode());
 
 
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       if (_password == _passwordchk){
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => Login()));
+
+        try {
+          final http.Response response = await http.post(utils_app().endpoint + "register",
+            body: {
+            "userId": _userid,
+              "email": _email,
+              "password": _password
+            });
+          setState(() {
+            isLoading = false;
+          });
+          Map jsonResponse = json.decode(response.body);
+          if(jsonResponse["error"]) {
+            print(jsonResponse["message"]);
+          } else {
+            print(jsonResponse["message"]);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Login()));
+          }
+
+        } catch (Error) {
+          print(Error);
+        }
+
+
       }
       else
         print("Password not matching");
@@ -35,9 +63,6 @@ class _RegisterState extends State<Register> {
       setState(() => _autoValidate = true);
       return;
     }
-
-
-
   }
 
   @override
@@ -50,158 +75,163 @@ class _RegisterState extends State<Register> {
         centerTitle: true,
         title: Text("DBS"),
       ),
-      body: Container(
-        decoration: new BoxDecoration(
-          image: new DecorationImage(
-            image: new AssetImage("assets/login.png"),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Container(
-            alignment: Alignment.center,
-            margin: EdgeInsets.symmetric(horizontal: screen_width * 0.08),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 45),
-                    child: Text(
-                      "REGISTER",
-                      textAlign: TextAlign.left,
-                      style: new TextStyle(fontSize: 45),
-                    ),
-                  ),
-                  Stack(
-                    alignment: Alignment.bottomLeft,
+      body: Stack(
+        children: <Widget>[
+          Container(
+            decoration: new BoxDecoration(
+              image: new DecorationImage(
+                image: new AssetImage("assets/login.png"),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: Container(
+                alignment: Alignment.center,
+                margin: EdgeInsets.symmetric(horizontal: screen_width * 0.08),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 20),
-                        child: Card(
-                          elevation: 8,
-                          shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(15.0))),
-                          child: Container(
-                              margin: EdgeInsets.only(
-                                  left: 35, right: 35, top: 15, bottom: 55),
-                              child: Form(
-                                autovalidate: _autoValidate,
-                                key: _formKey,
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: <Widget>[
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 25,
-                                          bottom: 0,
-                                          left: 0,
-                                          right: 0),
-                                      child: Text("USER ID"),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 0,
-                                          bottom: 10,
-                                          left: 0,
-                                          right: 0),
-                                      child: TextFormField(
-                                        autofocus: false,
-                                        validator: validator.validateID,
-                                        keyboardType: TextInputType.text,
-                                        onSaved: (String val) => _userid = val,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 25,
-                                          bottom: 0,
-                                          left: 0,
-                                          right: 0),
-                                      child: Text("YOUR E-MAIL"),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 0,
-                                          bottom: 10,
-                                          left: 0,
-                                          right: 0),
-                                      child: TextFormField(
-                                        validator: validator.validateEmail,
-                                        keyboardType:
-                                            TextInputType.emailAddress,
-                                        onSaved: (String val) => _email = val,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 25,
-                                          bottom: 0,
-                                          left: 0,
-                                          right: 0),
-                                      child: Text("PASSWORD"),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 0,
-                                          bottom: 10,
-                                          left: 0,
-                                          right: 0),
-                                      child: TextFormField(
-                                        validator: validator.validatePassword,
-                                        obscureText: true,
-                                        onSaved: (String val) =>
-                                            _password = val,
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 25,
-                                          bottom: 0,
-                                          left: 0,
-                                          right: 0),
-                                      child: Text("CONFIRM PASSWORD"),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(
-                                          top: 0,
-                                          bottom: 10,
-                                          left: 0,
-                                          right: 0),
-                                      child: TextFormField(
-                                        validator: validator.validatePassword,
-                                        obscureText: true,
-                                        onFieldSubmitted: (String val) =>
-                                        _passwordchk = val,
-                                        onSaved: (String val) =>
-                                            _passwordchk = val,
-                                      ),
-                                    )
-                                  ],
-                                ),
-                              )),
+                        padding: const EdgeInsets.only(bottom: 45),
+                        child: Text(
+                          "REGISTER",
+                          textAlign: TextAlign.left,
+                          style: new TextStyle(fontSize: 45),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 30),
-                        child: RaisedButton(
-                          color: const Color(0xff303030),
-                            onPressed: form_submit,
-                            child: Padding(
-                              padding: const EdgeInsets.all(15.0),
-                              child: Text("GO -->  ",
-                              style: TextStyle(
-                                color: Colors.white
-                              ),),
-                            )),
-                      )
+                      Stack(
+                        alignment: Alignment.bottomLeft,
+                        children: <Widget>[
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 20),
+                            child: Card(
+                              elevation: 8,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(15.0))),
+                              child: Container(
+                                  margin: EdgeInsets.only(
+                                      left: 35, right: 35, top: 15, bottom: 55),
+                                  child: Form(
+                                    autovalidate: _autoValidate,
+                                    key: _formKey,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: <Widget>[
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 25,
+                                              bottom: 0,
+                                              left: 0,
+                                              right: 0),
+                                          child: Text("USER ID"),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 0,
+                                              bottom: 10,
+                                              left: 0,
+                                              right: 0),
+                                          child: TextFormField(
+                                            autofocus: false,
+                                            validator: validator.validateID,
+                                            keyboardType: TextInputType.text,
+                                            onSaved: (String val) => _userid = val,
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 25,
+                                              bottom: 0,
+                                              left: 0,
+                                              right: 0),
+                                          child: Text("YOUR E-MAIL"),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 0,
+                                              bottom: 10,
+                                              left: 0,
+                                              right: 0),
+                                          child: TextFormField(
+                                            validator: validator.validateEmail,
+                                            keyboardType:
+                                                TextInputType.emailAddress,
+                                            onSaved: (String val) => _email = val,
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 25,
+                                              bottom: 0,
+                                              left: 0,
+                                              right: 0),
+                                          child: Text("PASSWORD"),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 0,
+                                              bottom: 10,
+                                              left: 0,
+                                              right: 0),
+                                          child: TextFormField(
+                                            validator: validator.validatePassword,
+                                            obscureText: true,
+                                            onSaved: (String val) =>
+                                                _password = val,
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 25,
+                                              bottom: 0,
+                                              left: 0,
+                                              right: 0),
+                                          child: Text("CONFIRM PASSWORD"),
+                                        ),
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 0,
+                                              bottom: 10,
+                                              left: 0,
+                                              right: 0),
+                                          child: TextFormField(
+                                            validator: validator.validatePassword,
+                                            obscureText: true,
+                                            onFieldSubmitted: (String val) =>
+                                            _passwordchk = val,
+                                            onSaved: (String val) =>
+                                                _passwordchk = val,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  )),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 30),
+                            child: RaisedButton(
+                              color: const Color(0xff303030),
+                                onPressed: isLoading ? null : form_submit,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(15.0),
+                                  child: Text("GO -->  ",
+                                  style: TextStyle(
+                                    color: Colors.white
+                                  ),),
+                                )),
+                          )
+                        ],
+                      ),
                     ],
                   ),
-                ],
-              ),
-            )),
+                )),
+          ),
+          isLoading ? Center(child: CircularProgressIndicator(),) : Container()
+        ],
       ),
     );
   }
