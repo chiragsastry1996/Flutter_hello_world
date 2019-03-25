@@ -16,6 +16,7 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   bool _autoValidate = false, isLoading = false;
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   String _userid, _password;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   FormValidator validator = FormValidator();
@@ -41,7 +42,16 @@ class _LoginState extends State<Login> {
           });
           Map jsonResponse = json.decode(response.body);
           if(jsonResponse["error"]) {
-            print(jsonResponse["message"]);
+            _scaffoldKey.currentState.showSnackBar(
+                    new SnackBar(duration: new Duration(seconds: 2), content:
+                    Padding(
+                      padding: const EdgeInsets.only(top: 0,left: 5),
+                      child: Text(jsonResponse["message"],
+                      style: TextStyle(
+                        fontSize: 15
+                      ),),
+                    )
+                    ));
           } else {
             print(jsonResponse["token"]);
             await utils_app().storage.write(key: "userid", value: _userid);
@@ -52,6 +62,16 @@ class _LoginState extends State<Login> {
 
         } catch (Error) {
           print(Error);
+          _scaffoldKey.currentState.showSnackBar(
+                  new SnackBar(duration: new Duration(seconds: 2), content:
+                  Padding(
+                    padding: const EdgeInsets.only(top: 0,left: 5),
+                    child: Text("Oops!! Unexpected error occured",
+                      style: TextStyle(
+                              fontSize: 15
+                      ),),
+                  )
+                  ));
         }
 
 
@@ -69,6 +89,7 @@ class _LoginState extends State<Login> {
     var screen_width = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      key: _scaffoldKey,
       appBar: new AppBar(centerTitle: true, title: Text("DBS")),
       body: Container(
         decoration: new BoxDecoration(
@@ -79,6 +100,7 @@ class _LoginState extends State<Login> {
         ),
         child: Stack(
           children: <Widget>[
+            isLoading ? LinearProgressIndicator() : Container(),
             Container(
                 alignment: Alignment.center,
                 margin: EdgeInsets.symmetric(horizontal: screen_width * 0.08),
@@ -196,7 +218,6 @@ class _LoginState extends State<Login> {
                     ],
                   ),
                 )),
-            isLoading ? Center(child: CircularProgressIndicator(),) : Container()
           ],
         ),
       ),

@@ -5,6 +5,7 @@ import 'chat.dart';
 import 'phone.dart';
 import 'team.dart';
 import 'login.dart';
+import 'utils_app.dart';
 import 'quick_access.dart';
 
 void main() => runApp(Menu());
@@ -34,6 +35,7 @@ class SquareCard extends StatelessWidget {
                   onPressed: () async {
                     SharedPreferences prefs = await SharedPreferences.getInstance();
                     prefs.clear();
+                    utils_app().storage.deleteAll();
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(builder: (context) => Login()),

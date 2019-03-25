@@ -17,6 +17,7 @@ class _RegisterState extends State<Register> {
   bool _autoValidate = false;
   String _userid, _password, _passwordchk, _email;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   FormValidator validator = FormValidator();
   bool isLoading = false;
   Future<void> form_submit() async {
@@ -29,7 +30,6 @@ class _RegisterState extends State<Register> {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       if (_password == _passwordchk){
-
         try {
           final http.Response response = await http.post(utils_app().endpoint + "register",
             body: {
@@ -42,9 +42,27 @@ class _RegisterState extends State<Register> {
           });
           Map jsonResponse = json.decode(response.body);
           if(jsonResponse["error"]) {
-            print(jsonResponse["message"]);
+            _scaffoldKey.currentState.showSnackBar(
+                    new SnackBar(duration: new Duration(seconds: 2), content:
+                    Padding(
+                      padding: const EdgeInsets.only(top: 0,left: 5),
+                      child: Text(jsonResponse["message"],
+                        style: TextStyle(
+                                fontSize: 15
+                        ),),
+                    )
+                    ));
           } else {
-            print(jsonResponse["message"]);
+            _scaffoldKey.currentState.showSnackBar(
+                    new SnackBar(duration: new Duration(seconds: 2), content:
+                    Padding(
+                      padding: const EdgeInsets.only(top: 0,left: 5),
+                      child: Text(jsonResponse["message"],
+                        style: TextStyle(
+                                fontSize: 15
+                        ),),
+                    )
+                    ));
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -52,13 +70,38 @@ class _RegisterState extends State<Register> {
           }
 
         } catch (Error) {
-          print(Error);
+          setState(() {
+            isLoading = false;
+          });
+          _scaffoldKey.currentState.showSnackBar(
+                  new SnackBar(duration: new Duration(seconds: 2), content:
+                  Padding(
+                    padding: const EdgeInsets.only(top: 0,left: 5),
+                    child: Text("Oops!! Unexpected error occured",
+                      style: TextStyle(
+                              fontSize: 15
+                      ),),
+                  )
+                  ));
         }
 
 
       }
-      else
-        print("Password not matching");
+      else {
+        setState(() {
+          isLoading = false;
+        });
+        _scaffoldKey.currentState.showSnackBar(
+                new SnackBar(duration: new Duration(seconds: 2), content:
+                Padding(
+                  padding: const EdgeInsets.only(top: 0, left: 5),
+                  child: Text("Password not matching",
+                    style: TextStyle(
+                            fontSize: 15
+                    ),),
+                )
+                ));
+      }
     } else {
       setState(() => _autoValidate = true);
       return;
@@ -71,6 +114,7 @@ class _RegisterState extends State<Register> {
     var screen_width = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      key: _scaffoldKey,
       appBar: new AppBar(
         centerTitle: true,
         title: Text("DBS"),
@@ -230,7 +274,7 @@ class _RegisterState extends State<Register> {
                   ),
                 )),
           ),
-          isLoading ? Center(child: CircularProgressIndicator(),) : Container()
+          isLoading ? LinearProgressIndicator() : Container()
         ],
       ),
     );
